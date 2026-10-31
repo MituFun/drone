@@ -12,9 +12,9 @@
 1. **筛选订单**
 2. **综合评分**：
 
-   $$
-   f(i,j)=\frac{\alpha_f}{1+d}+\frac{\beta_f}{1+s}+\frac{\gamma_f}{1+E}
-   $$
+$$
+f(i,j)=\frac{\alpha_f}{1+d}+\frac{\beta_f}{1+s}+\frac{\gamma_f}{1+E}
+$$
 
    - $d$：实际飞行距离
    - $s$：预计送达后的时间裕量
@@ -27,9 +27,9 @@
 1. **地图分块**
 2. **区域评分**：
 
-   $$
-   g(i,k)=\alpha_gq_k+\frac{\beta_g}{1+n_k}+\frac{\gamma_g}{1+d_{ik}}
-   $$
+$$
+g(i,k)=\alpha_gq_k+\frac{\beta_g}{1+n_k}+\frac{\gamma_g}{1+d_{ik}}
+$$
 
    - $q_k$：区域累计订单数量
    - $n_k$：区域已有或即将到达的待命无人机数量
