@@ -183,6 +183,7 @@ int main() {
 				drone.status = "TO_CHARGE";
 				drone.doneTime =
 					now + (100.0 - drone.battery) / BATTERY_CHARGED_PER_S;
+				cout << "DRONE: " << drone.id << " CHARGING." << endl;
 			}
 		}
 		// 分配订单
@@ -218,7 +219,7 @@ int main() {
 				continue;
 			sort(fs.begin(), fs.end());
 			cout << "DRONE: " << drone.id << "->"
-				 << " ORDER: " << fs[fs.size() - 1].second.second.first;
+				 << " ORDER: " << fs[fs.size() - 1].second.second.first << endl;
 			drone.status = "DELIVERY";
 			drone.doneTime = fs[fs.size() - 1].second.second.second + now;
 			double taskTime = fs[fs.size() - 1].second.second.second;
