@@ -11,11 +11,12 @@
 #include <vector>
 using namespace std;
 
-const double TIME_FOR_PICKUP = 100;		// 取货时间
-const double TIME_FOR_OFFLOAD = 100;	// 卸货时间
-const double DRONE_SPEED = 8;			// 无人机速度
-const double BATTERY_USED_PER_M = 0.01; // 每米电量消耗
-const double SAFETY_BATTERY = 5.0;		// 无人机最低电量限制
+const double TIME_FOR_PICKUP = 100;		   // 取货时间
+const double TIME_FOR_OFFLOAD = 100;	   // 卸货时间
+const double DRONE_SPEED = 8;			   // 无人机速度
+const double BATTERY_USED_PER_M = 0.01;	   // 每米电量消耗
+const double SAFETY_BATTERY = 5.0;		   // 无人机最低电量限制
+const double BATTERY_CHARGED_PER_S = 0.01; // 每秒可以充的电量百分比
 const double falpha = 0.5;
 const double fbeta = 0.2;
 const double fgamma = 0.3;
@@ -169,13 +170,19 @@ int main() {
 		orderInit();
 		double now = getCurrentTime();
 		for (auto &drone : drones) {
-			if (drone.doneTime <= now &&
+			if (drone.status == "TO_CHARGE" && now >= drone.doneTime) {
+				drone.battery = 100.0;
+				drone.status = "IDLE";
+			}
+			if (now >= drone.doneTime &&
 				(drone.status == "DELIVERY" || drone.status == "TO_SPOT")) {
 				drone.status = "IDLE";
 				drone.location = drone.taskLocation;
 			}
-			if (drone.battery <= SAFETY_BATTERY) {
+			if (drone.status == "IDLE" && drone.battery <= SAFETY_BATTERY) {
 				drone.status = "TO_CHARGE";
+				drone.doneTime =
+					now + (100.0 - drone.battery) / BATTERY_CHARGED_PER_S;
 			}
 		}
 		// 分配订单
